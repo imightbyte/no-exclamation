@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post to X</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Create a Post on X</h2>
+  <input type="text" id="tweetText" placeholder="Enter your message">
+  <button onclick="postToX()">Post to X</button>
+
+  <script>
+    function postToX() {
+      let input = document.getElementById("tweetText").value;
+      let cleanedText = input.replace(/!/g, ""); // Remove all "!"
+      let encodedText = encodeURIComponent(cleanedText);
+      let url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
