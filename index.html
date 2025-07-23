@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Post to X</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
     }
     input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      font-size: 16px;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
     }
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-left: 10px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #1DA1F2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0d8ddb;
+    }
+    .fallback {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .fallback a {
+      color: #1DA1F2;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <h2>Create a Post on X</h2>
-  <input type="text" id="tweetText" placeholder="Enter your message">
+  <input type="text" id="tweetText" placeholder="Enter your message" />
   <button onclick="postToX()">Post to X</button>
+
+  <div class="fallback" id="fallbackLink" style="display:none;">
+    Having trouble? <a id="manualLink" href="#" target="_blank">Tap here to post manually</a>.
+  </div>
 
   <script>
     function postToX() {
       let input = document.getElementById("tweetText").value;
-      let cleanedText = input.replace(/!/g, ""); // Remove all "!"
+      let cleanedText = input.replace(/!/g, "");
       let encodedText = encodeURIComponent(cleanedText);
-      let url = `https://twitter.com/intent/tweet?text=${encodedText}`;
-      window.open(url, '_blank');
+      let tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+
+      // Redirect to the tweet URL directly (more compatible with in-app browsers)
+      try {
+        window.location.href = tweetUrl;
+      } catch (e) {
+        // If something goes wrong, show fallback link
+        let fallback = document.getElementById("fallbackLink");
+        let manual = document.getElementById("manualLink");
+        manual.href = tweetUrl;
+        fallback.style.display = "block";
+      }
     }
   </script>
 </body>
