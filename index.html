@@ -42,7 +42,7 @@
   </style>
 </head>
 <body>
-  <h2>Create a Post on X</h2>
+  <h2>Create a Post on X - Feel free to use the ! and let's see what happen</h2>
   <input type="text" id="tweetText" placeholder="Enter your message" />
   <button onclick="postToX()">Post to X</button>
 
@@ -64,7 +64,7 @@
           inputEl.value = cleaned;
           inputEl.setSelectionRange(cursorPos, cursorPos); // preserve cursor
         }
-      }, 200); // 0.2 seconds delay
+      }, 100); // 0.2 seconds delay
     });
 
     function postToX() {
