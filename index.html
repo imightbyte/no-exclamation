@@ -44,7 +44,7 @@
 <body>
   <h2>Create a Post on X</h2>
   <input type="text" id="tweetText" placeholder="Enter your message" />
-  <button onclick="postToX()">Post to X - Feel free to try !</button>
+  <button onclick="postToX()">Post to X</button>
 
   <div class="fallback" id="fallbackLink" style="display:none;">
     Having trouble? <a id="manualLink" href="#" target="_blank">Tap here to post manually</a>.
@@ -52,15 +52,19 @@
 
   <script>
     const inputEl = document.getElementById("tweetText");
+    let debounceTimer;
 
-    // Real-time removal of exclamation marks
     inputEl.addEventListener("input", function () {
-      const cleaned = inputEl.value.replace(/!/g, "");
-      if (cleaned !== inputEl.value) {
-        const cursorPos = inputEl.selectionStart - (inputEl.value.length - cleaned.length);
-        inputEl.value = cleaned;
-        inputEl.setSelectionRange(cursorPos, cursorPos); // preserve cursor
-      }
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const original = inputEl.value;
+        const cleaned = original.replace(/!/g, "");
+        if (cleaned !== original) {
+          const cursorPos = inputEl.selectionStart - (original.length - cleaned.length);
+          inputEl.value = cleaned;
+          inputEl.setSelectionRange(cursorPos, cursorPos); // preserve cursor
+        }
+      }, 200); // 0.2 seconds delay
     });
 
     function postToX() {
@@ -68,7 +72,6 @@
       const encodedText = encodeURIComponent(cleanedText);
       const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
 
-      // Safer in in-app browsers
       try {
         window.location.href = tweetUrl;
       } catch (e) {
